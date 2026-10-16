@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f4ef">
+  <title>Grão · Frente de caixa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="rail" aria-label="Navegação">
+      <div class="brand-mark" aria-label="Grão Café">g.</div>
+      <div class="rail-separator"></div>
+      <button class="rail-button active" aria-label="Frente de caixa" title="Frente de caixa">
+        <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M7 9h3m-3 4h2m3-4h5m-5 4h5M7 16h10"></path></svg>
+      </button>
+      <button class="rail-button" id="salesNav" aria-label="Vendas do dia" title="Vendas do dia">
+        <svg viewBox="0 0 24 24"><path d="M4 19V5m0 14h17M8 15l4-4 3 2 5-6"></path><path d="M16 7h4v4"></path></svg>
+      </button>
+      <div class="rail-spacer"></div>
+      <button class="rail-button" id="resetButton" aria-label="Limpar dados locais" title="Limpar dados locais">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M10 11v6m4-6v6M6 7l1 13h10l1-13M9 7V4h6v3"></path></svg>
+      </button>
+      <div class="avatar" title="Operador">GC</div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><p class="eyebrow" id="currentDate">Hoje</p><h1>Frente de caixa</h1></div>
+        <div class="top-actions"><span class="status">Caixa aberto</span><button class="icon-button" id="headerSales" aria-label="Ver vendas" title="Vendas do dia"><svg viewBox="0 0 24 24"><path d="M4 19V5m0 14h17M8 15l4-4 3 2 5-6"></path></svg></button></div>
+      </header>
+
+      <div class="workspace">
+        <section class="catalog" aria-label="Catálogo de produtos">
+          <div class="metrics">
+            <div class="metric"><span class="metric-label">Vendas de hoje</span><span class="metric-value" id="salesAmount">R$ 0,00</span></div>
+            <div class="metric"><span class="metric-label">Pedidos concluídos</span><span class="metric-value" id="salesCount">0</span><span class="metric-note">neste caixa</span></div>
+            <div class="metric"><span class="metric-label">Ticket médio</span><span class="metric-value" id="averageSale">R$ 0,00</span></div>
+          </div>
+          <div class="catalog-toolbar"><h2>Cardápio</h2><label class="search"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 4 4"></path></svg><input id="searchInput" type="search" placeholder="Buscar produto..." autocomplete="off" aria-label="Buscar produto"></label></div>
+          <div class="categories" id="categories" aria-label="Categorias"></div>
+          <div class="product-grid" id="productGrid"></div>
+        </section>
+
+        <aside class="cart" aria-label="Pedido atual">
+          <div class="cart-heading"><div class="cart-title"><h2>Novo pedido</h2><span class="cart-count" id="cartCount">0</span></div><button class="text-button" id="clearCart">Limpar pedido</button></div>
+          <div class="order-meta"><span>Comanda <strong id="orderNumber">#001</strong></span><span id="orderTime">--:--</span></div>
+          <div class="cart-items" id="cartItems"></div>
+          <div class="checkout">
+            <span class="payment-label">Forma de pagamento</span>
+            <div class="payment-options" id="paymentOptions" role="group" aria-label="Forma de pagamento">
+              <button class="payment-option active" data-payment="Pix">Pix</button><button class="payment-option" data-payment="Cartão">Cartão</button><button class="payment-option" data-payment="Dinheiro">Dinheiro</button>
+            </div>
+            <div class="pix-manager" id="pixManager" hidden>
+              <p class="pix-instructions">Escaneie com o app do banco e confira o valor antes de pagar.</p>
+              <div class="pix-qr" id="pixQRCode" role="img" aria-label="QR Code Pix da comanda"></div>
+              <p class="pix-recipient">Pix para <strong>dioamaral@gmail.com</strong></p>
+              <button class="copy-pix-button" id="copyPixCode" type="button">Copiar código Pix</button>
+            </div>
+            <div class="cash-manager" id="cashManager" hidden>
+              <label class="cash-label" for="cashReceived">Valor recebido</label>
+              <input class="cash-input" id="cashReceived" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0,00">
+              <div class="cash-presets" id="cashPresets"></div>
+              <div class="cash-change-line"><span>Troco</span><strong id="cashChangeAmount">R$ 0,00</strong></div>
+              <p class="cash-message" id="cashMessage" aria-live="polite">Informe o valor recebido.</p>
+            </div>
+            <div class="totals"><div class="total-line"><span>Subtotal</span><span id="subtotal">R$ 0,00</span></div><div class="total-line grand"><span>Total</span><span id="total">R$ 0,00</span></div></div>
+            <button class="finish-button" id="finishSale" disabled><svg viewBox="0 0 24 24"><path d="M5 12.5 9.5 17 19 7.5"></path></svg>Concluir venda</button>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="dialog-backdrop" id="salesDialog" role="dialog" aria-modal="true" aria-labelledby="salesTitle">
+    <div class="dialog"><div class="dialog-head"><h2 id="salesTitle">Vendas do período</h2><button class="icon-button" id="closeSales" aria-label="Fechar vendas"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"></path></svg></button></div><div class="sales-filters"><label class="sales-filter-label">Consultar por<select id="salesPeriod"><option value="day">Dia</option><option value="month">Mês</option><option value="year">Ano</option></select></label><label class="sales-filter-label">Período<input id="salesPeriodValue" type="date"></label></div><div class="sales-period-summary" id="salesPeriodSummary"></div><div class="sales-list" id="salesList"></div></div>
+  </div>
+  <div class="dialog-backdrop" id="pinDialog" role="dialog" aria-modal="true" aria-labelledby="pinTitle">
+    <div class="dialog pin-dialog"><div class="dialog-head"><h2 id="pinTitle">Acesso protegido</h2></div><p class="pin-copy">Digite a senha para continuar.</p><form id="pinForm"><label class="pin-label" for="pinInput">Senha de acesso</label><input class="pin-input" id="pinInput" type="password" inputmode="numeric" maxlength="4" autocomplete="off" required><p class="pin-error" id="pinError" role="alert" hidden>Senha incorreta. Tente novamente.</p><div class="pin-actions"><button class="pin-cancel" id="cancelPin" type="button">Cancelar</button><button class="finish-button" type="submit">Continuar</button></div></form></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
